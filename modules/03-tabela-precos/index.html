@@ -1,0 +1,103 @@
+<!DOCTYPE html> <!-- Define o tipo do documento como HTML5 -->
+<html lang="pt-BR"> <!-- Define o idioma principal do documento como Português do Brasil -->
+
+<head> <!-- Inicio do cabeçalho com metadados do documento -->
+  <meta charset="UTF-8"> <!-- Define a codificação de caracteres como UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Configura a responsividade para telas móveis -->
+  <title>Bella Massa - Tabela de Preços</title> <!-- Define o título exibido na aba do navegador -->
+  <link rel="stylesheet" href="style.css"> <!-- Vincula o arquivo de estilos CSS externo -->
+</head> <!-- Fim do cabeçalho -->
+
+<body> <!-- Início do corpo da página -->
+
+  <div class="container"> <!-- Conteiner principal de controle de largura e layout -->
+
+    <!-- HEADER / TOPO --> <!-- Comentário de seção do topo -->
+    <header> <!-- Elemento semântico para o cabeçalho da aplicação -->
+      <div class="brand-title"> <!-- Contêiner da marca e título principal -->
+        <span class="pizza-icon">🍕</span> <!-- Ícone decorativo de pizza -->
+        <div class="brand-title"> <!-- Contêiner de textos da marca -->
+          <div
+            style="font-size: 0.75rem; color: var(--cheese-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">
+            <!-- Estilo do subtítulo superior -->
+          </div> <!-- Fim do subtítulo -->
+          <h1>Bella Massa | Tabela de Preços</h1> <!-- Título principal do sistema -->
+        </div> <!-- Fim do contêiner de textos -->
+      </div> <!-- Fim do contêiner da marca -->
+
+      <div class="header-right"> <!-- Contêiner para ações no lado direito do cabeçalho -->
+        <div class="theme-switch" role="group" aria-label="Alternar tema">
+          <!-- Seletor para troca de tema claro/escuro -->
+          <button type="button" id="btnLight" onclick="setTheme('light')" title="Modo claro"
+            aria-label="Modo claro">☀️</button> <!-- Botão do modo claro -->
+          <button type="button" id="btnDark" onclick="setTheme('dark')" title="Modo escuro"
+            aria-label="Modo escuro">🌙</button> <!-- Botão do modo escuro -->
+        </div> <!-- Fim do seletor de temas -->
+      </div> <!-- Fim do contêiner direito -->
+    </header> <!-- Fim do cabeçalho -->
+
+    <!-- SEÇÃO TELA 3: EXIBIÇÃO DO CARDÁPIO --> <!-- Comentário descritivo da seção de catálogo -->
+    <section class="section-card"> <!-- Cartão contêiner para o catálogo -->
+      <div class="section-title"
+        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <!-- Título e barra de busca alinhados -->
+        <div> <!-- Contêiner para textos do título -->
+          <h2 class="brand-title">📋 Tabela de Preços</h2> <!-- Título do catálogo -->
+        </div> <!-- Fim do contêiner de textos -->
+        <input type="text" id="buscaCardapio" placeholder="Buscar por nome..." oninput="renderizarCardapio()"
+          style="max-width: 280px; padding: 8px 12px; font-size: 0.8rem;">
+        <!-- Campo de entrada para busca de itens por nome -->
+      </div> <!-- Fim do título da seção -->
+
+      <!-- SISTEMA DE ABAS POR CATEGORIA --> <!-- Comentário descritivo das abas -->
+      <div class="tabs-container"> <!-- Contêiner flexível para os botões de abas -->
+        <button type="button" class="tab-btn active" onclick="mudarCategoria('Pizza Salgada')">🍕 Pizza Salgada</button>
+        <!-- Botão da aba Pizza Salgada -->
+        <button type="button" class="tab-btn" onclick="mudarCategoria('Pizza Doce')">🍫 Pizza Doce</button>
+        <!-- Botão da aba Pizza Doce -->
+        <button type="button" class="tab-btn" onclick="mudarCategoria('Bebidas')">🥤 Bebidas</button>
+        <!-- Botão da aba Bebidas -->
+      </div> <!-- Fim do contêiner de abas -->
+
+      <!-- ÁREA COM SCROLL DOS ITENS --> <!-- Comentário sobre a lista rolável -->
+      <div class="cardapio-scroll-container"> <!-- Contêiner com rolagem vertical habilitada -->
+        <div id="gridCardapio" class="cardapio-grid"> <!-- Grid responsivo para renderizar os cartões dos itens -->
+          <!-- Itens do cardápio renderizados dinamicamente via JavaScript --> <!-- Marcador de renderização JS -->
+        </div> <!-- Fim da grid de cardápio -->
+      </div> <!-- Fim do contêiner com scroll -->
+    </section> <!-- Fim da seção do catálogo -->
+
+    <!-- MENSAGEM DE STATUS (INFORMATIVA) --> <!-- Comentário da mensagem de toast -->
+    <div id="statusMessage" class="status-message hidden"></div>
+    <!-- Elemento para exibição de mensagens rápidas no rodape -->
+
+  </div> <!-- Fim do conteiner principal -->
+
+  <!-- MODAL DE AVISO DE ERRO (CENTRO DA TELA) --> <!-- Comentário do modal central de erro -->
+  <div id="errorModalOverlay" class="modal-overlay hidden"> <!-- Camada de fundo escurecido centralizada -->
+    <div class="modal-box"> <!-- Caixa do modal -->
+      <div class="modal-icon">⚠️</div> <!-- Ícone de alerta em destaque -->
+      <h3 id="modalTitle">Aviso de Erro</h3> <!-- Título do modal de erro -->
+      <p id="modalMessage">Ocorreu um erro inesperado.</p> <!-- Mensagem detalhada de erro -->
+      <button type="button" class="btn-modal-close" onclick="fecharModalErro()">Entendido</button>
+      <!-- Botão para fechar o modal -->
+    </div> <!-- Fim da caixa do modal -->
+  </div> <!-- Fim da camada do modal -->
+
+  <!-- WIDGET VLIBRAS --> <!-- Comentário da integração de acessibilidade -->
+  <div vw class="enabled"> <!-- Elemento raiz do VLibras -->
+    <div vw-access-button class="active"></div> <!-- Botão de ativação do VLibras -->
+    <div vw-plugin-wrapper> <!-- Wrapper do plugin -->
+      <div class="vw-plugin-top-wrapper"></div> <!-- Elemento topo do plugin -->
+    </div> <!-- Fim do wrapper -->
+  </div> <!-- Fim do elemento VLibras -->
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script> <!-- Carregamento da biblioteca JS do VLibras -->
+  <script> <!-- Início da inicialização do script VLibras -->
+    new window.VLibras.Widget('https://vlibras.gov.br/app'); <!-- Instancia o widget do VLibras -->
+  </script> <!-- Fim do script de inicialização do VLibras -->
+
+  <script src="app.js"></script> <!-- Inclusão do script principal de lógica do aplicativo -->
+</body> <!-- Fim do corpo do documento -->
+
+</html> <!-- Fim do documento HTML -->
